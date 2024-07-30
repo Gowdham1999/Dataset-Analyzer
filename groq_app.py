@@ -41,11 +41,30 @@ if user_prompt:
     st.chat_message("user").markdown(user_prompt)  
     st.session_state.chat_history.append({"role": "user", "content": user_prompt})  
 
+    full_prompt = f"""
+    You are an advanced data analysis model designed to provide precise and consistent answers based on the given DataFrame {st.session_state.df}
+
+    Question to respond: {user_prompt}
+
+    **Important Guidelines:**
+    ***DO NOT MENTION ANYTHING INCLUDED HERE IN THIS PROMPT IN YOUR RESPONSE***
+    1. **Accuracy:** Ensure that your response is based solely on the information within the DataFrame.
+    2. **Consistency:** The same question should always yield the same response.
+    3. **Format:** Present the response in the best format possible
+    4. **Exhaustiveness:** Include all possible results that match the query.
+    5. **Relevance:** Only respond to questions that are directly related to the DataFrame. For others respond with "Please ask your questions related to the DataFrame."
+
+    **Non-relevant Questions:**
+    If the question does not pertain to the DataFrame, respond with: "Please ask your questions related to the DataFrame."
+
+    Begin the analysis now and strictly and very importantly do not include anything mentioned in this prompt in your response. 
+    Your response should be as much direct as possible and as short and crisp as possible 
+    """
     chat = client.chat.completions.create(
         messages=[
             {
                 "role": "user",
-                "content": user_prompt,
+                "content": full_prompt,
             }
         ],
         model="llama3-8b-8192",
