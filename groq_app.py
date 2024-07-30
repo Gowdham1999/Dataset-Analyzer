@@ -42,7 +42,7 @@ if user_prompt:
     st.session_state.chat_history.append({"role": "user", "content": user_prompt})  
 
     full_prompt = f"""
-    You are an advanced data analysis model designed to provide precise and consistent answers based on the given DataFrame {uploaded_file.tostring()}
+    You are an advanced data analysis model designed to provide precise and consistent answers based on the given DataFrame {st.session_state.df.tostring()}
 
     Question to respond: {user_prompt}
 
